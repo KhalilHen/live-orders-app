@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart  ';
 
 import 'package:live_order_apps/onboarding/page_view_model.dart';
+import 'package:live_order_apps/pages/login.dart';
 
 class Introduction extends StatefulWidget {
   @override
@@ -46,9 +47,9 @@ class _IntroductionState extends State<Introduction> {
               ),
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(
+              Navigator.pushReplacement(
                 context,
-                '/home',
+                MaterialPageRoute(builder: (context) => const LoginPage()),
               );
             },
             child: const Text(
