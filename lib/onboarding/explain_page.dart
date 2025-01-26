@@ -3,10 +3,16 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 PageViewModel explainPage() {
   return PageViewModel(
-    title: "Effortlessly Manage Your Orders",
-    body: "Easily browse menus, customize orders, and track them in real-time. Enhance your customer experience with our seamless order management system.",
-    image: Image.network(
-      "https://www.jotform.com/blog/wp-content/uploads/2020/07/food-order-management-01.png",
+    title: "Quick & Easy  manage your orders",
+    body: "Browse menus, customize your order, and track your order in real-time. It's that simple!",
+    image: Image.asset(
+      'explain.png',
+      // "https://www.jotform.com/blog/wp-content/uploads/2020/07/food-order-management-01.png",
+
+      // "https://www.jotform.com/blog/wp-content/uploads/2020/07/food-order-management-01.png",
+      // "https://www.jotform.com/blog/wp-content/uploads/2020/07/food-order-management-01.png",
+      // "https://www.jotform.com/blog/wp-content/uploads/2020/07/food-order-management-01.png", //* Doesn't work anymore?
+
       height: 250.0,
     ),
     decoration: PageDecoration(
