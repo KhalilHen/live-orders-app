@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:introduction_screen/introduction_screen.dart  ';
 
-import 'package:live_order_apps/onboarding/pages/page_view_model.dart';
+import 'package:live_order_apps/onboarding/page_view_model.dart';
 
 class Introduction extends StatefulWidget {
   @override

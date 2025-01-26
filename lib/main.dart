@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:live_order_apps/onboarding/start_page.dart';
 import 'package:live_order_apps/pages/login.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginPage(),
+      home: Introduction(),
     );
   }
 }
