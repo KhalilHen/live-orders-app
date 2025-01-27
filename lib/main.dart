@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:live_order_apps/onboarding/start_page.dart';
+import 'package:live_order_apps/pages/homepage.dart';
 import 'package:live_order_apps/pages/login.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,6 +11,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MyApp());
 }
 
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: Introduction(),
+      // home: Introduction(),
+      home: HomePage(),
     );
   }
 }
