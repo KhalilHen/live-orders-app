@@ -126,6 +126,69 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      actions: [
+        //** I am not sure whether to use these colors. As they are negative and positive action */
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Decline"),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text("Accept"),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white),
+            )
+          ],
+        ),
+
+        // **Or using a more colors similair to the theme of the app. */
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     // ElevatedButton(onPressed: () {}, child: Text("Cancel")),
+
+        //     Expanded(
+        //       child: TextButton(
+        //         style: TextButton.styleFrom(
+        //           padding: EdgeInsets.symmetric(vertical: 12),
+        //           shape: RoundedRectangleBorder(
+        //             borderRadius: BorderRadius.circular(8),
+        //           ),
+        //         ),
+        //         onPressed: () {
+        //           Navigator.of(context).pop();
+        //         },
+        //         child: Text(
+        //           "Decline",
+        //           style: TextStyle(
+        //             color: Colors.grey[700],
+        //             fontWeight: FontWeight.w500,
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     SizedBox(width: 8),
+        //     ElevatedButton(
+        //         onPressed: () {},
+        //         style: ElevatedButton.styleFrom(
+        //           backgroundColor: Colors.deepOrange,
+        //           padding: EdgeInsets.symmetric(vertical: 12),
+        //           shape: RoundedRectangleBorder(
+        //             borderRadius: BorderRadius.circular(8),
+        //           ),
+        //         ),
+        //         child: Text(
+        //           "Accept",
+        //           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        //         ))
+        //   ],
+        // )
+      ],
     );
   }
 }
