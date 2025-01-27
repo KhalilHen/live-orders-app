@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:live_order_apps/pages/homepage.dart';
 import 'package:provider/provider.dart';
 
+//TODO Adjust it so it fit's more a restaurant owner's account
 class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

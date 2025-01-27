@@ -19,18 +19,35 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: Colors.deepOrange,
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return showOrderAlert();
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              //TODO add later
+              Text("Close the restaurant:"),
+              Padding(padding: const EdgeInsets.all(6)),
+              Switch(
+                  value: false,
+                  onChanged: (bool newValue) {
+                    setState(() {});
+                  })
+            ],
+          ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return showOrderAlert();
+                  },
+                );
               },
-            );
-          },
-          child: Text("Show dialog"),
-        ),
+              child: Text("Show dialog"),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.deepOrange,
@@ -52,7 +69,7 @@ class _HomePageState extends State<HomePage> {
           }
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Dashboard"), //* Dashboard/homepage
+          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: "Dashboard"), //* Dashboard/homepage
 
           BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: "Restaurant"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
@@ -63,8 +80,14 @@ class _HomePageState extends State<HomePage> {
 
   AlertDialog showOrderAlert() {
     return AlertDialog(
-      title: Text("Incoming Order"),
-      content: Text("New incomming order do you want to accept o cancel this order?"),
+      title: Row(
+        children: [
+          Icon(Icons.priority_high, color: Colors.red),
+          SizedBox(width: 8),
+          Text("Incoming Order!"),
+        ],
+      ),
+      content: Text("New incomming order do you want to accept or cancel this order?"),
       actions: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
