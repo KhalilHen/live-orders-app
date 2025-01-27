@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:live_order_apps/onboarding/start_page.dart';
+import 'package:live_order_apps/pages/account.dart';
 import 'package:live_order_apps/pages/homepage.dart';
 import 'package:live_order_apps/pages/login.dart';
+import 'package:live_order_apps/routes/routes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -12,6 +14,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+ 
   runApp(const MyApp());
 }
 
@@ -32,6 +35,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: Introduction(),
       home: HomePage(),
+
+      routes: {
+        Routes.onBoarding: (context) => Introduction(),
+        Routes.login: (context) => LoginPage(),
+        Routes.home: (context) => HomePage(),
+        Routes.account: (context) => AccountPage(),
+      },
     );
   }
 }
