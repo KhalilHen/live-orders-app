@@ -80,20 +80,52 @@ class _HomePageState extends State<HomePage> {
 
   AlertDialog showOrderAlert() {
     return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       title: Row(
         children: [
           Icon(Icons.priority_high, color: Colors.red),
-          SizedBox(width: 8),
-          Text("Incoming Order!"),
+          // SizedBox(width: 3),
+          SizedBox(
+            width: 3,
+          ),
+          Text("New Order!"),
+          // Text("Incoming Order!"),
         ],
       ),
-      content: Text("New incomming order do you want to accept or cancel this order?"),
-      actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [ElevatedButton(onPressed: null, child: Text("Cancel")), ElevatedButton(onPressed: null, child: Text("Accept"))],
-        )
-      ],
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Order #1",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text("Customer: John "),
+          SizedBox(
+            height: 5,
+          ),
+          Text("items")
+
+          //Here late map
+          ,
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Total: €5",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
