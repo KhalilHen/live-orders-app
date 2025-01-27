@@ -15,15 +15,16 @@ class AuthService {
   ) async {
     if (formKey.currentState!.validate()) {
       try {
-        await signInWithEmailAndPassword(email: email, password: password).then((value) {
-          Navigator.of(formKey.currentContext!).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
-        }).catchError((e) {
-          ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(SnackBar(content: Text('Error: $e')));
-        });
-      } catch (e) {
-        //   ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(SnackBar(content: Text('Error: $e')));
+        final response = await signInWithEmailAndPassword(email: email, password: password);
+        final user = response.user;
+        if (user != null) {
+          final data = await supabase.from('persons').select('role').eq('id', user.id).single();
+          if (data['role'] == 'restaurant_owner') {
+            Navigator.of(formKey.currentContext!).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+          } else {
+            ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(SnackBar(content: Text('User is not a restaurant owner')));
+          }
+        }
       } catch (e) {
         ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
