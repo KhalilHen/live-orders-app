@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:live_order_apps/models/enum/order_enum.dart';
+import 'package:live_order_apps/models/menu.dart';
 import 'package:live_order_apps/models/order.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,43 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Order> orders = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Order generateRandomOrder() {
+    final List<String> customerNames = [
+      "John",
+      "Max",
+      "Khalil",
+      "Sara",
+      "Ali",
+      "Lina",
+      "Mona",
+      "Lara",
+      "Layla",
+      "Laila",
+    ];
+    final List<MenuItem> menuItems = [
+      MenuItem(id: 1, name: 'Burger', description: 'Classic beef burger', price: 12, sectionId: 1),
+      MenuItem(id: 2, name: 'Fries', description: 'Crispy french fries', price: 5, sectionId: 1),
+      MenuItem(id: 3, name: 'Coke', description: 'Ice cold coca-cola', price: 3, sectionId: 2),
+      MenuItem(id: 4, name: 'Pizza', description: 'Margherita pizza', price: 15, sectionId: 1),
+    ];
+
+    List<MenuItem> orderItems = [];
+
+    return Order(
+      id: orders.length + 1,
+      restaurantId: 1,
+      totalAmount: 5,
+      customerName: customerNames[orders.length % customerNames.length],
+      items: orderItems,
+      orderTime: DateTime.now(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
