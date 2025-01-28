@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  // statusChip(OrderStatus.Pending),
+                  statusChip(OrderStatus.Pending),
                   // statusChip(OrderStatus.Accepted),
                   // statusChip(OrderStatus.Completed),
                   // statusChip(OrderStatus.Kitchen),
@@ -73,9 +73,44 @@ class _HomePageState extends State<HomePage> {
                   // statusChip(OrderStatus.Rejected),
                 ],
               ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text("Customer: John"),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    "Items:  Hambruger, Fries, Coke",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "Total: €10",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepOrange,
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         },
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(context: context, builder: (context) => showOrderAlert());
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.deepOrange,
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.deepOrange,
