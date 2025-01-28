@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:live_order_apps/models/order.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -8,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Order> orders = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,36 +22,58 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: Colors.deepOrange,
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              //TODO add later
-              Text("Close the restaurant:"),
-              Padding(padding: const EdgeInsets.all(6)),
-              Switch(
-                  value: false,
-                  onChanged: (bool newValue) {
-                    setState(() {});
-                  })
-            ],
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return showOrderAlert();
-                  },
-                );
-              },
-              child: Text("Show dialog"),
+      body: orders.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.store,
+                    size: 64,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    'No orders yet',
+                    style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+                  )
+                ],
+              ),
+            )
+          : Center(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      //TODO add later
+                      Text("Close the restaurant:"),
+                      Padding(padding: const EdgeInsets.all(6)),
+                      Switch(
+                          value: false,
+                          onChanged: (bool newValue) {
+                            setState(() {});
+                          })
+                    ],
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return showOrderAlert();
+                          },
+                        );
+                      },
+                      child: Text("Show dialog"),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.deepOrange,
         unselectedItemColor: Colors.grey,
@@ -87,9 +112,6 @@ class _HomePageState extends State<HomePage> {
         children: [
           Icon(Icons.priority_high, color: Colors.red),
           // SizedBox(width: 3),
-          SizedBox(
-            width: 3,
-          ),
           Text("New Order!"),
           // Text("Incoming Order!"),
         ],
