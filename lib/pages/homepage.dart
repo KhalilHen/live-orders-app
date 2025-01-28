@@ -210,40 +210,120 @@ class _HomePageState extends State<HomePage> {
       ),
       title: Row(
         children: [
-          Icon(Icons.priority_high, color: Colors.red),
-          // SizedBox(width: 3),
-          Text("New Order!"),
-          // Text("Incoming Order!"),
+          Icon(
+            // Icons.receipt_long,
+            Icons.priority_high,
+            // color: Colors.deepOrange,
+            color: Colors.red,
+          ),
+          SizedBox(width: 8),
+          Text(
+            "New Order",
+            style: TextStyle(
+              // color: Colors.deepOrange,
+              // color: Colors.black87,
+              color: Colors.black,
+              // fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Order #1",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey[200],
+              child: Icon(
+                Icons.person_outline,
+                color: Colors.grey[600],
+              ),
             ),
+            title: Text(
+              "John",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            subtitle: Text("Customer"),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Text("Customer: John "),
-          SizedBox(
-            height: 5,
-          ),
-          Text("items")
-
-          //Here late map
-          ,
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Total: €5",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+          Divider(),
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Text(
+                "Order Details",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+              )),
+          Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey[50],
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.grey[200]!),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "2× Burger",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    Text("\$24.00"),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "1× Fries",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    Text("\$4.99"),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "1× Coke",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    Text("\$2.99"),
+                  ],
+                ),
+                Divider(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Total",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      "\$31.98",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        // color: Colors.deepOrange,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
