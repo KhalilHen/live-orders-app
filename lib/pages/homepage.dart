@@ -20,6 +20,8 @@ class _HomePageState extends State<HomePage> {
   final Random random = Random();
   bool isDialogShowing = false;
 
+  bool isRestaurantOpen = true;
+
   @override
   void initState() {
     super.initState();
@@ -76,6 +78,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void showNewOrderAlert() {
+    if (!isRestaurantOpen) return;
     setState(() {
       isDialogShowing = true;
     });
@@ -118,21 +121,21 @@ class _HomePageState extends State<HomePage> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.green.withAlpha(22),
+                            color: isRestaurantOpen ? Colors.green.withAlpha(22) : Colors.red.withAlpha(22),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: Colors.green,
+                              color: isRestaurantOpen ? Colors.green : Colors.red,
                               width: 1,
                             ),
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.store, size: 16, color: Colors.green),
+                              Icon(isRestaurantOpen ? Icons.store : Icons.store_outlined, size: 16, color: isRestaurantOpen ? Colors.green : Colors.red),
                               SizedBox(width: 4),
                               Text(
-                                "Open",
+                                isRestaurantOpen ? "Open" : "Closed",
                                 style: TextStyle(
-                                  color: Colors.green,
+                                  color: isRestaurantOpen ? Colors.green : Colors.red,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -140,9 +143,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         Switch(
-                          value: true,
+                          value: isRestaurantOpen,
                           onChanged: (value) {
-                            setState(() {});
+                            setState(() {
+                              isRestaurantOpen = value;
+                            });
                           },
                           activeColor: Colors.green,
                         ),
@@ -158,6 +163,31 @@ class _HomePageState extends State<HomePage> {
                           ),
                           tooltip: 'Toggle Automatic Orders',
                         ),
+
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.cleaning_services,
+                          ),
+                          tooltip: "Clear all orders",
+                        ),
+                        // IconButton(onPressed: () {}, icon: Icon(Icons.reorder)),
+                        // IconButton(onPressed: () {}, icon: Icon(Icons.open_with)),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.drag_indicator),
+                          tooltip: "Switch to drag and drop mode",
+                        ),
+
+                        // IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                        // IconButton(onPressed: () {}, icon: Icon(Icons.arrow_drop_down)),
+                        // IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.menu),
+                          tooltip: "Switch to button  mode",
+                        ),
                       ],
                     ),
                   ],
@@ -165,6 +195,17 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+          if (!isRestaurantOpen)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                "Restaurant is closed",
+                style: TextStyle(
+                  color: Colors.red[700],
+                  fontSize: 13,
+                ),
+              ),
+            ),
           Expanded(
             child: orders.isEmpty
                 ? Center(
