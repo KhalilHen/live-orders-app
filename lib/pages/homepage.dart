@@ -118,6 +118,7 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 final order = orders[index];
                 final status = orderStatuses[order.id] ?? OrderStatus.Pending;
+                // final time
                 return Card(
                   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   elevation: 2,
@@ -168,7 +169,9 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.deepOrange,
                           ),
                         ),
-                        if (status == OrderStatus.Accepted || status == OrderStatus.Kitchen)
+                        //TODO Add function to after a order is completed for more then a 15 min it's fixed and can't change the position
+
+                        if (status == OrderStatus.Accepted || status == OrderStatus.Kitchen || status == OrderStatus.Ready || status == OrderStatus.Completed)
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: ElevatedButton(
@@ -286,40 +289,149 @@ class _HomePageState extends State<HomePage> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("Update Order status"),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
+              title: Row(
                 children: [
-                  ListTile(
-                    title: Text("Kitchen"),
-                    onTap: () {
-                      setState(() {
-                        orderStatuses[order.id] = OrderStatus.Kitchen;
-                      });
-                      Navigator.pop(context);
-                    },
+                  Icon(
+                    Icons.update,
+                    color: Colors.deepOrange,
                   ),
-                  ListTile(
-                    title: Text("Ready for pickup"),
-                    onTap: () {
-                      setState(() {
-                        orderStatuses[order.id] = OrderStatus.Ready;
-                      });
-                      Navigator.pop(context);
-                    },
+                  SizedBox(
+                    width: 8,
                   ),
-                  ListTile(
-                    title: Text("Completed"),
-                    onTap: () {
-                      setState(() {
-                        orderStatuses[order.id] = OrderStatus.Completed;
-                      });
-                      Navigator.pop(context);
-                    },
+                  Text(
+                    "Update Order status",
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 20,
+                    ),
                   ),
                 ],
               ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[50],
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey[200]!),
+                    ),
+                    child: Column(
+                      children: [
+                        statusOption(
+                          context,
+                          order,
+                          OrderStatus.Kitchen,
+                          Icons.restaurant,
+                          "In Kitchen",
+                          "Order is being prepared",
+                          orderStatuses[order.id] ?? OrderStatus.Pending,
+                        ),
+                        Divider(height: 1),
+                        statusOption(
+                          context,
+                          order,
+                          OrderStatus.Ready,
+                          Icons.delivery_dining,
+                          "Ready for Pickup",
+                          "Order is ready to be picked up",
+                          orderStatuses[order.id] ?? OrderStatus.Pending,
+                        ),
+                        Divider(height: 1),
+                        statusOption(
+                          context,
+                          order,
+                          OrderStatus.Completed,
+                          Icons.check_circle,
+                          "Completed",
+                          "Order has picked-up",
+                          orderStatuses[order.id] ?? OrderStatus.Pending,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )),
+              ],
             ));
+  }
+
+  Widget statusOption(
+    BuildContext context,
+    Order order,
+    OrderStatus status,
+    IconData icon,
+    String title,
+    String subtitle,
+    OrderStatus currentStatus,
+  ) {
+    final bool isCurrentStatus = currentStatus == status;
+    return InkWell(
+      onTap: () {
+        setState(() {
+          orderStatuses[order.id] = status;
+        });
+        Navigator.pop(context);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: isCurrentStatus ? Colors.deepOrange.withAlpha(21) : null,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: isCurrentStatus ? Colors.deepOrange.withOpacity(0.2) : Colors.grey[100],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, color: isCurrentStatus ? Colors.deepOrange : Colors.grey[600]),
+            ),
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: isCurrentStatus ? FontWeight.bold : FontWeight.w500,
+                      color: isCurrentStatus ? Colors.deepOrange : Colors.black87,
+                      fontSize: 15,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isCurrentStatus)
+              Icon(
+                Icons.check_circle,
+                color: Colors.deepOrange,
+                size: 20,
+              )
+          ],
+        ),
+      ),
+    );
   }
 
   AlertDialog showOrderAlert(dynamic newOrder) {
