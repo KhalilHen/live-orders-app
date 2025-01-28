@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:live_order_apps/models/enum/order_enum.dart';
 import 'package:live_order_apps/models/menu.dart';
@@ -18,6 +19,8 @@ class _HomePageState extends State<HomePage> {
   Map<int, OrderStatus> orderStatuses = {};
   Timer? timer;
   final Random random = Random();
+  final AudioPlayer audioPlayer = AudioPlayer();
+
   bool isDialogShowing = false;
 
   bool isRestaurantOpen = true;
@@ -27,6 +30,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+  audioPlayer.setSource(AssetSource('bell-sound.mp3'));
 
     timer = Timer.periodic(const Duration(seconds: 15), (timer) {
       //So that the different orders will not overlap each other
@@ -83,7 +88,7 @@ class _HomePageState extends State<HomePage> {
     if (!isRestaurantOpen) return;
 
     final Order newOrder = generateRandomOrder();
-
+      playNotificationSound() ;
     if (isAutomaticOrders) {
       setState(() {
         orders.add(newOrder);
@@ -97,6 +102,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+//TODO Find better sound when using real case scenario
+Future<void> playNotificationSound() async {
+
+  if (newOrderSound) {
+    try {
+      await audioPlayer.play(AssetSource('bell-sound.mp3'));
+    } catch (e) {
+      debugPrint('Error playing sound: $e');
+    }
+  }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -457,6 +473,37 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
           )
+        ],
+      ),
+
+      floatingActionButton: FloatingActionButton(onPressed: () {
+
+        playNotificationSound();
+      },),
+           bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.deepOrange,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: 0,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushNamed(context, '/homepage');
+              break;
+
+            case 1:
+              Navigator.pushNamed(context, 'restaurant');
+              break;
+            case 2:
+              Navigator.pushNamed(context, '/account');
+              break;
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: "Dashboard"), //* Dashboard/homepage
+
+          BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: "Restaurant"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
         ],
       ),
     );
