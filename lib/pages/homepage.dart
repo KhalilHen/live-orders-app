@@ -118,82 +118,195 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 final order = orders[index];
                 final status = orderStatuses[order.id] ?? OrderStatus.Pending;
+                final timeAgo = getTimeAgo(order.orderTime ?? DateTime.now());
                 // final time
                 return Card(
                   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  elevation: 2,
+                  elevation: 4,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.all(16),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Order #${order.id}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(
+                        color: getStatusColor(status).withAlpha(22),
+                      )),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: getStatusColor(status).withAlpha(22),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
                           ),
                         ),
-                        statusChip(status),
-                        // statusChip(OrderStatus.Accepted),
-                        // statusChip(OrderStatus.Completed),
-                        // statusChip(OrderStatus.Kitchen),
-                        // statusChip(OrderStatus.Ready),
-                        // statusChip(OrderStatus.Rejected),
-                      ],
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text("Customer: ${order.customerName}"),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          "Items:  ${order.items.map((item) => item.name).join(', ')}",
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "Total: \$${order.totalAmount}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.deepOrange,
-                          ),
-                        ),
-                        //TODO Add function to after a order is completed for more then a 15 min it's fixed and can't change the position
-
-                        if (status == OrderStatus.Accepted || status == OrderStatus.Kitchen || status == OrderStatus.Ready || status == OrderStatus.Completed)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: ElevatedButton(
-                              onPressed: () => showUpdateStatusDialog(order),
-                              child: Text("Update status"),
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.deepOrange, foregroundColor: Colors.white),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.receipt_long,
+                                  size: 20,
+                                  color: Colors.grey[70],
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  "Order #${order.id}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
                             ),
-                          )
-                      ],
-                    ),
+                            statusChip(status),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.grey[700],
+                                  radius: 20,
+                                  child: Icon(
+                                    Icons.person_outline,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 12,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      order.customerName,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      timeAgo,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            Container(
+                              padding: EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[50],
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.grey[200]!),
+                              ),
+                              child: Column(
+                                children: [
+                                  ...order.items
+                                      .map((item) => Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 4),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.all(4),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.deepOrange.withAlpha(25),
+                                                    borderRadius: BorderRadius.circular(4),
+                                                  ),
+                                                  child: Text(
+                                                    "1x",
+                                                    style: TextStyle(
+                                                      color: Colors.deepOrange,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Expanded(
+                                                  child: Text(
+                                                    item.name,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "\$${item.price}.00",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ))
+                                      .toList(),
+                                  Divider(
+                                    height: 24,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Total",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text(
+                                        "\$${order.totalAmount}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: Colors.deepOrange,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            //TODO Add function to after a order is completed for more then a 15 min it's fixed and can't change the position
+
+                            if (status == OrderStatus.Accepted || status == OrderStatus.Kitchen || status == OrderStatus.Ready || status == OrderStatus.Completed)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () => showUpdateStatusDialog(order),
+                                    label: Text("Update status"),
+                                    icon: Icon(Icons.update),
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.deepOrange,
+                                        foregroundColor: Colors.white,
+                                        padding: EdgeInsets.symmetric(vertical: 12),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        )),
+                                  ),
+                                ),
+                              )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 );
               },
             ),
-
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     showDialog(context: context, builder: (context) => showOrderAlert());
-      //   },
-      //   child: Icon(Icons.add),
-      //   backgroundColor: Colors.deepOrange,
-      // ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.deepOrange,
         unselectedItemColor: Colors.grey,
@@ -221,6 +334,37 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  String getTimeAgo(DateTime dateTime) {
+    final difference = DateTime.now().difference(dateTime);
+
+    if (difference.inMinutes < 1) {
+      return 'Just now';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes}m ago';
+    } else {
+      return '${difference.inHours}h ago';
+    }
+  }
+
+  Color getStatusColor(OrderStatus status) {
+    switch (status) {
+      case OrderStatus.Pending:
+        return Colors.orange;
+      case OrderStatus.Accepted:
+        return Colors.lightBlue;
+      case OrderStatus.Rejected:
+        return Colors.red;
+      case OrderStatus.Kitchen:
+        return Colors.blue;
+      case OrderStatus.Ready:
+        return Colors.green;
+      case OrderStatus.Completed:
+        return Colors.deepOrange;
+      default:
+        return Colors.grey;
+    }
   }
 
   //Building custom widget for status to easy handle different states
@@ -353,15 +497,20 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )),
+                  ],
+                ),
               ],
             ));
   }
