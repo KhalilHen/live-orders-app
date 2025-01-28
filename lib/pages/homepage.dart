@@ -18,11 +18,14 @@ class _HomePageState extends State<HomePage> {
   Map<int, OrderStatus> orderStatuses = {};
   Timer? timer;
   final Random random = Random();
+  bool isDialogShowing = false;
   @override
   void initState() {
     super.initState();
 
     timer = Timer.periodic(const Duration(seconds: 15), (timer) {
+      //So that the different orders will not overlap each other
+      if (!isDialogShowing) {}
       showNewOrderAlert();
     });
   }
@@ -58,11 +61,12 @@ class _HomePageState extends State<HomePage> {
     for (int i = 0; i < numberOfItems; i++) {
       orderItems.add(menuItems[random.nextInt(menuItems.length)]);
     }
+    num totalAmount = orderItems.fold(0, (sum, item) => sum + item.price);
 
     return Order(
       id: orders.length + 1,
       restaurantId: 1,
-      totalAmount: 5,
+      totalAmount: totalAmount,
       customerName: customerNames[random.nextInt(customerNames.length)],
       items: orderItems,
       orderTime: DateTime.now(),
@@ -71,10 +75,10 @@ class _HomePageState extends State<HomePage> {
 
   void showNewOrderAlert() {
     setState(() {
-      // isDialogShowing = true;
+      isDialogShowing = true;
     });
-
-    showDialog(context: context, builder: (context) => showOrderAlert());
+    final Order newOrder = generateRandomOrder();
+    showDialog(context: context, builder: (context) => showOrderAlert(newOrder));
   }
 
   @override
@@ -88,89 +92,87 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: Colors.deepOrange,
       ),
-      // body: orders.isEmpty
-      //     ? Center(
-      //         child: Column(
-      //           mainAxisAlignment: MainAxisAlignment.center,
-      //           children: [
-      //             Icon(
-      //               Icons.store,
-      //               size: 64,
-      //               color: Colors.grey,
-      //             ),
-      //             SizedBox(
-      //               height: 16,
-      //             ),
-      //             Text(
-      //               'No orders yet',
-      //               style: TextStyle(fontSize: 18, color: Colors.grey[600]),
-      //             )
-      //           ],
-      //         ),
-      //       )
-      // :
-
-      body: ListView.builder(
-        itemCount: 1,
-        itemBuilder: (context, index) {
-          final order = orders[index];
-          final status = orderStatuses[order.id] ?? OrderStatus.Pending;
-          return Card(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: ListTile(
-              contentPadding: EdgeInsets.all(16),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: orders.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Order #1",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  statusChip(OrderStatus.Pending),
-                  // statusChip(OrderStatus.Accepted),
-                  // statusChip(OrderStatus.Completed),
-                  // statusChip(OrderStatus.Kitchen),
-                  // statusChip(OrderStatus.Ready),
-                  // statusChip(OrderStatus.Rejected),
-                ],
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text("Customer: John"),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    "Items:  Hambruger, Fries, Coke",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  Icon(
+                    Icons.store,
+                    size: 64,
+                    color: Colors.grey,
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 16,
                   ),
                   Text(
-                    "Total: €10",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepOrange,
-                    ),
+                    'No orders yet',
+                    style: TextStyle(fontSize: 18, color: Colors.grey[600]),
                   )
                 ],
               ),
+            )
+          : ListView.builder(
+              itemCount: 1,
+              itemBuilder: (context, index) {
+                final order = orders[index];
+                final status = orderStatuses[order.id] ?? OrderStatus.Pending;
+                return Card(
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.all(16),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Order #1",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        statusChip(OrderStatus.Pending),
+                        // statusChip(OrderStatus.Accepted),
+                        // statusChip(OrderStatus.Completed),
+                        // statusChip(OrderStatus.Kitchen),
+                        // statusChip(OrderStatus.Ready),
+                        // statusChip(OrderStatus.Rejected),
+                      ],
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text("Customer: John"),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          "Items:  Hambruger, Fries, Coke",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Total: €10",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepOrange,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
 
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {
@@ -270,7 +272,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  AlertDialog showOrderAlert() {
+  AlertDialog showOrderAlert(dynamic newOrder) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -309,7 +311,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             title: Text(
-              "John",
+              newOrder.customerName,
               style: TextStyle(
                 fontWeight: FontWeight.w500,
               ),
@@ -337,38 +339,21 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "2× Burger",
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    Text("\$24.00"),
-                  ],
-                ),
-                SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "1× Fries",
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    Text("\$4.99"),
-                  ],
-                ),
-                SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "1× Coke",
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    Text("\$2.99"),
-                  ],
-                ),
+                ...newOrder.items
+                    .map((item) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "1× ${item.name}",
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              Text("\$${item.price}.00"),
+                            ],
+                          ),
+                        ))
+                    .toList(),
                 Divider(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -381,11 +366,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Text(
-                      "\$31.98",
+                      "\$${newOrder.totalAmount}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        // color: Colors.deepOrange,
                       ),
                     ),
                   ],
