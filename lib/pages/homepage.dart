@@ -106,7 +106,8 @@ class _HomePageState extends State<HomePage> {
 Future<void> playNotificationSound() async {
 
   if (newOrderSound) {
-    try {
+    try { 
+      
       await audioPlayer.play(AssetSource('bell-sound.mp3'));
     } catch (e) {
       debugPrint('Error playing sound: $e');
@@ -324,6 +325,10 @@ Future<void> playNotificationSound() async {
                                           fontSize: 16,
                                         ),
                                       ),
+                                      //* Maby a easy to acces button for support with specific order
+                                      // Then opens a dialog with field to put in what problem is
+                                      //Then sent the order id and the information to the support team.
+                                      IconButton(onPressed: null, icon: Icon(Icons.support))
                                     ],
                                   ),
                                   statusChip(status),
@@ -338,11 +343,11 @@ Future<void> playNotificationSound() async {
                                   Row(
                                     children: [
                                       CircleAvatar(
-                                        backgroundColor: Colors.grey[700],
+                                        // backgroundColor: Colors.grey[700],
                                         radius: 20,
                                         child: Icon(
                                           Icons.person_outline,
-                                          color: Colors.grey[700],
+                                          // color: Colors.grey[700],
                                         ),
                                       ),
                                       SizedBox(
