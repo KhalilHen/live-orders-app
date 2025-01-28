@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
               ),
             )
           : ListView.builder(
-              itemCount: 1,
+              itemCount: orders.length,
               itemBuilder: (context, index) {
                 final order = orders[index];
                 final status = orderStatuses[order.id] ?? OrderStatus.Pending;
@@ -129,12 +129,12 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Order #1",
+                          "Order #${order.id}",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        statusChip(OrderStatus.Pending),
+                        statusChip(status),
                         // statusChip(OrderStatus.Accepted),
                         // statusChip(OrderStatus.Completed),
                         // statusChip(OrderStatus.Kitchen),
@@ -148,12 +148,12 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           height: 8,
                         ),
-                        Text("Customer: John"),
+                        Text("Customer: ${order.customerName}"),
                         SizedBox(
                           height: 4,
                         ),
                         Text(
-                          "Items:  Hambruger, Fries, Coke",
+                          "Items:  ${order.items.map((item) => item.name).join(', ')}",
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -161,12 +161,12 @@ class _HomePageState extends State<HomePage> {
                           height: 8,
                         ),
                         Text(
-                          "Total: €10",
+                          "Total: \$${order.totalAmount}",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.deepOrange,
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -386,13 +386,25 @@ class _HomePageState extends State<HomePage> {
           children: [
             ElevatedButton(
               onPressed: () {
+                setState(() {
+                  orders.add(newOrder);
+                  orderStatuses[newOrder.id] = OrderStatus.Rejected;
+                  isDialogShowing = false;
+                });
                 Navigator.pop(context);
               },
               child: Text("Decline"),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  orders.add(newOrder);
+                  orderStatuses[newOrder.id] = OrderStatus.Accepted;
+                  isDialogShowing = false;
+                });
+                Navigator.pop(context);
+              },
               child: Text("Accept"),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white),
             )
