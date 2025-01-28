@@ -21,7 +21,9 @@ class _HomePageState extends State<HomePage> {
   bool isDialogShowing = false;
 
   bool isRestaurantOpen = true;
-
+  bool isAutomaticOrders = true;
+  bool newOrderSound = true;
+  bool isDragAndDrop = false;
   @override
   void initState() {
     super.initState();
@@ -79,11 +81,20 @@ class _HomePageState extends State<HomePage> {
 
   void showNewOrderAlert() {
     if (!isRestaurantOpen) return;
-    setState(() {
-      isDialogShowing = true;
-    });
+
     final Order newOrder = generateRandomOrder();
-    showDialog(context: context, builder: (context) => showOrderAlert(newOrder));
+
+    if (isAutomaticOrders) {
+      setState(() {
+        orders.add(newOrder);
+        orderStatuses[newOrder.id] = OrderStatus.Accepted;
+      });
+    } else {
+      setState(() {
+        isDialogShowing = true;
+      });
+      showDialog(context: context, builder: (context) => showOrderAlert(newOrder));
+    }
   }
 
   @override
@@ -156,16 +167,36 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              newOrderSound = !newOrderSound;
+                            });
+                          },
                           icon: Icon(
-                            Icons.notifications_active,
-                            color: Colors.deepOrange,
+                            newOrderSound ? Icons.music_note : Icons.music_off,
+                          ),
+                          tooltip: newOrderSound ? "Turn off new order sound" : "Turn on new order sound",
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isAutomaticOrders = !isAutomaticOrders;
+                            });
+                          },
+                          icon: Icon(
+                            isAutomaticOrders ? Icons.notifications_active : Icons.notifications_off,
+                            color: isAutomaticOrders ? Colors.deepOrange : Colors.grey,
                           ),
                           tooltip: 'Toggle Automatic Orders',
                         ),
-
+                        //* I am not sure whether this will be used in a real life scenario */
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              orders.clear();
+                              orderStatuses.clear();
+                            });
+                          },
                           icon: Icon(
                             Icons.cleaning_services,
                           ),
@@ -174,7 +205,11 @@ class _HomePageState extends State<HomePage> {
                         // IconButton(onPressed: () {}, icon: Icon(Icons.reorder)),
                         // IconButton(onPressed: () {}, icon: Icon(Icons.open_with)),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              isDragAndDrop = !isDragAndDrop;
+                            });
+                          },
                           icon: Icon(Icons.drag_indicator),
                           tooltip: "Switch to drag and drop mode",
                         ),
@@ -422,32 +457,6 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
           )
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.deepOrange,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        currentIndex: 0,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Navigator.pushNamed(context, '/homepage');
-              break;
-
-            case 1:
-              Navigator.pushNamed(context, 'restaurant');
-              break;
-            case 2:
-              Navigator.pushNamed(context, '/account');
-              break;
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: "Dashboard"), //* Dashboard/homepage
-
-          BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: "Restaurant"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
         ],
       ),
     );
