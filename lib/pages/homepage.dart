@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:live_order_apps/models/enum/order_enum.dart';
 import 'package:live_order_apps/models/menu.dart';
@@ -12,10 +15,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Order> orders = [];
-
+  Map<int, OrderStatus> orderStatuses = {};
+  Timer? timer;
+  final Random random = Random();
   @override
   void initState() {
     super.initState();
+
+    timer = Timer.periodic(const Duration(seconds: 15), (timer) {
+      showNewOrderAlert();
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   Order generateRandomOrder() {
@@ -39,15 +54,27 @@ class _HomePageState extends State<HomePage> {
     ];
 
     List<MenuItem> orderItems = [];
+    int numberOfItems = random.nextInt(3) + 1;
+    for (int i = 0; i < numberOfItems; i++) {
+      orderItems.add(menuItems[random.nextInt(menuItems.length)]);
+    }
 
     return Order(
       id: orders.length + 1,
       restaurantId: 1,
       totalAmount: 5,
-      customerName: customerNames[orders.length % customerNames.length],
+      customerName: customerNames[random.nextInt(customerNames.length)],
       items: orderItems,
       orderTime: DateTime.now(),
     );
+  }
+
+  void showNewOrderAlert() {
+    setState(() {
+      // isDialogShowing = true;
+    });
+
+    showDialog(context: context, builder: (context) => showOrderAlert());
   }
 
   @override
@@ -86,6 +113,8 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: 1,
         itemBuilder: (context, index) {
+          final order = orders[index];
+          final status = orderStatuses[order.id] ?? OrderStatus.Pending;
           return Card(
             margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             elevation: 2,
@@ -143,13 +172,13 @@ class _HomePageState extends State<HomePage> {
         },
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(context: context, builder: (context) => showOrderAlert());
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.deepOrange,
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     showDialog(context: context, builder: (context) => showOrderAlert());
+      //   },
+      //   child: Icon(Icons.add),
+      //   backgroundColor: Colors.deepOrange,
+      // ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.deepOrange,
         unselectedItemColor: Colors.grey,
