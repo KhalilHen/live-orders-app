@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:live_order_apps/models/enum/order_enum.dart';
 import 'package:live_order_apps/models/order.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,58 +23,60 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: Colors.deepOrange,
       ),
-      body: orders.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+      // body: orders.isEmpty
+      //     ? Center(
+      //         child: Column(
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: [
+      //             Icon(
+      //               Icons.store,
+      //               size: 64,
+      //               color: Colors.grey,
+      //             ),
+      //             SizedBox(
+      //               height: 16,
+      //             ),
+      //             Text(
+      //               'No orders yet',
+      //               style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+      //             )
+      //           ],
+      //         ),
+      //       )
+      // :
+
+      body: ListView.builder(
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ListTile(
+              contentPadding: EdgeInsets.all(16),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
-                    Icons.store,
-                    size: 64,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
                   Text(
-                    'No orders yet',
-                    style: TextStyle(fontSize: 18, color: Colors.grey[600]),
-                  )
-                ],
-              ),
-            )
-          : Center(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      //TODO add later
-                      Text("Close the restaurant:"),
-                      Padding(padding: const EdgeInsets.all(6)),
-                      Switch(
-                          value: false,
-                          onChanged: (bool newValue) {
-                            setState(() {});
-                          })
-                    ],
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return showOrderAlert();
-                          },
-                        );
-                      },
-                      child: Text("Show dialog"),
+                    "Order #1",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                  // statusChip(OrderStatus.Pending),
+                  // statusChip(OrderStatus.Accepted),
+                  // statusChip(OrderStatus.Completed),
+                  // statusChip(OrderStatus.Kitchen),
+                  // statusChip(OrderStatus.Ready),
+                  // statusChip(OrderStatus.Rejected),
                 ],
               ),
             ),
+          );
+        },
+      ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.deepOrange,
         unselectedItemColor: Colors.grey,
@@ -99,6 +102,68 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: "Restaurant"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
         ],
+      ),
+    );
+  }
+
+  //Building custom widget for status to easy handle different states
+  Widget statusChip(OrderStatus status) {
+    Color chipColor;
+    String statusText;
+
+    switch (status) {
+      case OrderStatus.Pending:
+        chipColor = Colors.orange;
+        statusText = "Pending";
+
+        break;
+
+      case OrderStatus.Accepted:
+        chipColor = Colors.lightBlue;
+        statusText = "Accepted";
+        break;
+
+      case OrderStatus.Rejected:
+        chipColor = Colors.red;
+        statusText = "Rejected";
+        break;
+
+      case OrderStatus.Kitchen:
+        chipColor = Colors.blue;
+        statusText = "Kitchen";
+        break;
+
+      case OrderStatus.Ready:
+        chipColor = Colors.green;
+        statusText = "Ready for pick-up";
+        break;
+
+      case OrderStatus.Completed:
+        chipColor = Colors.deepOrange;
+        statusText = "Completed";
+
+      default:
+        chipColor = Colors.grey;
+        statusText = "Unknown";
+    }
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 4,
+      ),
+      decoration: BoxDecoration(
+        color: chipColor.withAlpha(25),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: chipColor),
+      ),
+      child: Text(
+        statusText,
+        style: TextStyle(
+          color: chipColor,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

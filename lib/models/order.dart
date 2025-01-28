@@ -12,6 +12,7 @@ class Order {
   final Restaurant? restaurant;
   final DateTime? orderTime;
   final List<MenuItem> items;
+  final String customerName;
   Order({
     required this.id,
     this.userId,
@@ -21,6 +22,7 @@ class Order {
     this.restaurant,
     this.orderTime,
     this.items = const [],
+    required this.customerName,
   });
 
   factory Order.fromMap(Map<String, dynamic> data) {
@@ -36,6 +38,7 @@ class Order {
       restaurant: data['restaurant'] != null ? Restaurant.fromMap(data['restaurant'] ?? {}) : null,
       orderTime: _parseDateTime(data['order_time']),
       items: items,
+      customerName: data['customer_name'] ?? '',
     );
   }
 
