@@ -25,8 +25,9 @@ class _HomePageState extends State<HomePage> {
 
     timer = Timer.periodic(const Duration(seconds: 15), (timer) {
       //So that the different orders will not overlap each other
-      if (!isDialogShowing) {}
-      showNewOrderAlert();
+      if (!isDialogShowing) {
+        showNewOrderAlert();
+      }
     });
   }
 
@@ -167,6 +168,15 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.deepOrange,
                           ),
                         ),
+                        if (status == OrderStatus.Accepted || status == OrderStatus.Kitchen)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: ElevatedButton(
+                              onPressed: () => showUpdateStatusDialog(order),
+                              child: Text("Update status"),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.deepOrange, foregroundColor: Colors.white),
+                            ),
+                          )
                       ],
                     ),
                   ),
@@ -270,6 +280,46 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  showUpdateStatusDialog(Order order) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Update Order status"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: Text("Kitchen"),
+                    onTap: () {
+                      setState(() {
+                        orderStatuses[order.id] = OrderStatus.Kitchen;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Ready for pickup"),
+                    onTap: () {
+                      setState(() {
+                        orderStatuses[order.id] = OrderStatus.Ready;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Completed"),
+                    onTap: () {
+                      setState(() {
+                        orderStatuses[order.id] = OrderStatus.Completed;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            ));
   }
 
   AlertDialog showOrderAlert(dynamic newOrder) {
