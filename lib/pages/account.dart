@@ -92,35 +92,18 @@ class AccountPage extends StatelessWidget {
 
             ),
             ),
+            Padding(padding: const EdgeInsets.all(02),
+            child: Row(
+              children: [
+
+                statistikCard("Today orders", "50", Icons.receipt_long, Colors.deepOrange),
+              ],
+            ),
+            ),
           
-            const SizedBox(
-              height: 24,
-            ),
-            Text(
-              "Account settings",
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-      
-            const SizedBox(
-              height: 16,
-            ),
-            settingsItem(context, icon: Icons.person_outline, title: 'Personal Information'),
-            settingsItem(context, icon: Icons.lock_outline, title: 'Change password'),
-            settingsItem(context, icon: Icons.notifications_outlined, title: "Notifications"),
-            const SizedBox(
-              height: 24,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepOrange,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                  child: const Text("Log out")),
-            )
+          
+
+          
           ],
         ),
       ),
@@ -147,17 +130,61 @@ class AccountPage extends StatelessWidget {
         ],
       ),
     );
+
+  
   }
 
-  Widget settingsItem(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.deepOrange),
-      title: Text(title),
-      trailing: const Icon(Icons.chevron_right),
+  Widget statistikCard(String title,  String value, IconData icon,  Color color) {
+
+    return Expanded(
+      
+      child:  Container(
+padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+
+                    color: color.withAlpha(25),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: color.withAlpha(51),
+                    width: 1,
+                    
+                    )
+
+      ) , child: Column( crossAxisAlignment: CrossAxisAlignment.start,
+      
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+
+          decoration: BoxDecoration(
+            color: color.withAlpha(51),
+            borderRadius: BorderRadius.circular(8),
+
+          ),
+          child: Icon(icon, color: color, size: 24,),
+        )
+
+    // , const SizedBox(height: 16,)
+    // , const SizedBox(height: 8,),
+        ,  const SizedBox(height: 12,),
+      Text(value, style: TextStyle(
+
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: color, 
+      ),),
+      const SizedBox(height: 4,),
+      Text(title, style:  TextStyle(
+        color: Colors.grey[600], fontSize: 14,
+
+      ),)
+      ],
+      ),
+      
+      
+      
+      
+      )
     );
   }
+  
 }
