@@ -16,6 +16,6 @@ class Routes {
     onBoarding: (context) => Introduction(),
     // home: (context) => HomePage(),
     login: (context) => LoginPage(),
-    // account: (context) => AccountPage(),
+    account: (context) => AccountPage(),
   };
 }

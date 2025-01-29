@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:live_order_apps/pages/homepage.dart';
+import 'package:live_order_apps/pages/stats_page.dart';
 import 'package:provider/provider.dart';
 
 //TODO Adjust it so it fit's more a restaurant owner's account
@@ -97,24 +98,33 @@ class AccountPage extends StatelessWidget {
 
             // Q
             Padding(padding: const EdgeInsets.all(02),
-            child: Row(
+            child: Column(
               children: [
+                Row(
+                  children: [
+                    staticCard("Today orders", "50", Icons.receipt_long, Colors.deepOrange),
+                
+                const SizedBox(width: 10,),
+                staticCard("Total revenue",  "\$500", Icons.payments,
+                Colors.green,
+                // Colors.green.shade500
+                // Colors.green.shade700 //I like this kind of dark green but i am 
+                // Colors.green.shade600
+                
+                // Colors.green.shade900
+                //  Colors.green.shade100
+                
+                ), 
+                  ],
+                ),
+                //TODO Improve this later
+            IconButton(onPressed: () {
+Navigator.push(context, MaterialPageRoute(builder: (context) => const StatsPage()));
 
-                statistikCard("Today orders", "50", Icons.receipt_long, Colors.deepOrange),
-
-const SizedBox(width: 10,),
-statistikCard("Total revenue",  "\$500", Icons.payments,
-Colors.green,
-// Colors.green.shade500
-// Colors.green.shade700 //I like this kind of dark green but i am 
-// Colors.green.shade600
-
-// Colors.green.shade900
-//  Colors.green.shade100
-
-), 
+            }, icon: Icon(Icons.stacked_line_chart_sharp, color: Colors.deepOrange, size: 24), ),
               ],
             ),
+            
             ),
 //! These are not functional yet. But bit of how it can look in real case */
             settingSection(
@@ -176,7 +186,7 @@ Colors.green,
   
   }
 
-  Widget statistikCard(String title,  String value, IconData icon,  Color color) {
+  Widget staticCard(String title,  String value, IconData icon,  Color color) {
 
     return Expanded(
       

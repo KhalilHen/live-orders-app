@@ -6,7 +6,7 @@ enum OrderStatus {
   Cancelled,
   Ready,
   Completed,
-  Unknown,
+  // Unknown,
 }
 enum dragAbleModeStatus {
 

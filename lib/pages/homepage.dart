@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   bool isAutomaticOrders = true;
   bool newOrderSound = true;
   bool isDragAndDrop = false;
+  bool dragAndDropRowVersion = false;
   @override
   void initState() {
     super.initState();

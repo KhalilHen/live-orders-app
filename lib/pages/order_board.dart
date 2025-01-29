@@ -107,4 +107,20 @@ class OrderBoard extends StatelessWidget {
     //   ),
     // );
       }
+
+      // Widget rowKanBanBoard() {
+
+      //   final statusColumns = OrderStatus.values.where((status) => status != OrderStatus.Rejected).map((status) 
+     
+      //   => OrderColumn(    status: status,
+      //         orders: getOrderBystatus(status),
+      //         onOrderDropped: (order) => onOrderStatusChanged(order as Order, status),
+
+        
+        
+      //   )
+      //   ).toList( );
+        
+      
+      // }
 }
