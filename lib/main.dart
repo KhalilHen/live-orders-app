@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         Routes.onBoarding: (context) => Introduction(),
         Routes.login: (context) => LoginPage(),
         Routes.home: (context) => HomePage(),
-        Routes.account: (context) => AccountPage(),
+        // Routes.account: (context) => AccountPage(),
       },
     );
   }

@@ -89,7 +89,10 @@ class _HomePageState extends State<HomePage> {
     if (!isRestaurantOpen) return;
 
     final Order newOrder = generateRandomOrder();
-      playNotificationSound() ;
+      //* Turned off until used again because of the sound */
+      // playNotificationSound() ;
+
+
     if (isAutomaticOrders) {
       setState(() {
         orders.add(newOrder);

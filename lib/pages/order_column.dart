@@ -9,7 +9,8 @@ class OrderColumn extends StatelessWidget {
   final OrderStatus status;
   // final dragAbleModeStatus status;
   final List<Order> orders;
-  final DragTargetAcceptWithDetails<Order> onOrderDropped;
+  final Function(Order) onOrderDropped;
+  // final DragTargetAcceptWithDetails<Order> onOrderDropped;
 
   const OrderColumn({
     Key? key,
@@ -30,8 +31,8 @@ class OrderColumn extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: DragTarget<Order>(
-        
-          onAcceptWithDetails: onOrderDropped,
+          onAccept: onOrderDropped,
+
           builder: (context, candidateData, rejectedData) {
               return Column(
 

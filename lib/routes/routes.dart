@@ -14,8 +14,8 @@ class Routes {
 
   static Map<String, WidgetBuilder> returnRoutes = {
     onBoarding: (context) => Introduction(),
-    home: (context) => HomePage(),
+    // home: (context) => HomePage(),
     login: (context) => LoginPage(),
-    account: (context) => AccountPage(),
+    // account: (context) => AccountPage(),
   };
 }

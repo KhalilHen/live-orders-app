@@ -15,12 +15,29 @@ class DraggableOrderCard extends StatelessWidget {
     return Draggable<Order>(
       data: order,
       feedback: Material(
+        // elevation: 4,
+      
+        // borderRadius: BorderRadius.circular(8),
+
+        
         child: Container(
        width: 300,
-          child: orderCard(isDragging: true),
+            // width: MediaQuery.of(context).size.width * 0.2,
+            // padding: const EdgeInsets.all(16),
+            // decoration: BoxDecoration(
+              // color: Colors.white,
+              // borderRadius: BorderRadius.circular(8)
+            // ,
+            
+            // ),
+            child: orderCard(isDragging: true),
+          // child: orderCard(isDragging: true),
+          // child: Text(order.id.toString(), style: TextStyle(
+            // color: Colors.grey.shade400,
+          // ),
+          // ), 
         ),
       ),
-
       childWhenDragging: Container(height: 0, margin: EdgeInsets.only(bottom: 16),
       
       child: orderCard(),
@@ -28,6 +45,42 @@ class DraggableOrderCard extends StatelessWidget {
 
       child: orderCard(),
     );
+      // childWhenDragging: Container(
+        
+      //   margin: const EdgeInsets.symmetric(vertical: 4),
+
+      //   padding: const EdgeInsets.all(16),
+      //   decoration: BoxDecoration(
+      //     color: Colors.grey.shade200,
+      //     borderRadius: BorderRadius.circular(8),
+
+      //   ),
+      //  child: Text(order.id.toString(), style: TextStyle(
+      //   color: Colors.grey.shade400,
+        
+      //  ),),
+      //   // height: 0,
+      //   //  margin: EdgeInsets.only(bottom: 16),
+      
+      // // child: orderCard(),
+      // ),
+      // child: Card(margin: const EdgeInsets.symmetric(vertical: 4),
+      
+      // child: Container(
+      //   padding: const EdgeInsets.all(16),
+      //   child: Text(
+      //     order.id.toString(),
+      //     style: TextStyle(
+      //       // color: Colors.grey.shade400,
+      //    fontWeight: FontWeight.bold
+      //     ),
+
+      //   ),
+      // ),
+    
+
+      // child: orderCard(),
+  
 
 
 
