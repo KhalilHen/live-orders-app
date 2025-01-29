@@ -3,6 +3,7 @@ import 'package:live_order_apps/onboarding/start_page.dart';
 import 'package:live_order_apps/pages/account.dart';
 import 'package:live_order_apps/pages/homepage.dart';
 import 'package:live_order_apps/pages/login.dart';
+import 'package:live_order_apps/pages/stats_page.dart';
 
 class Routes {
   static const String onBoarding = '/onboarding';
@@ -10,6 +11,7 @@ class Routes {
   static const String login = '/login';
   static const String account = "/account";
   static const String restaurant = "/restaurant";
+  static const String  statics = "/statics";
 
 
   static Map<String, WidgetBuilder> returnRoutes = {
@@ -17,5 +19,6 @@ class Routes {
     // home: (context) => HomePage(),
     login: (context) => LoginPage(),
     account: (context) => AccountPage(),
+    statics: (context) => StatsPage(),
   };
 }

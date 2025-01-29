@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 // import 'package:live_order_apps/widgets/statistik_card.dart';
+//* This can be used for a single app. With restaurant + stats for  a on the go management app.
 
 class  StatsPage extends StatefulWidget {
   const StatsPage({super.key});
@@ -138,7 +139,7 @@ class _StatsPageState extends State<StatsPage> {
                 staticCard("Returning Customers", "50", Icons.person_outline, Colors.teal),
                           const SizedBox(width: 12,),
 
-                staticCard("Avg Order time ", "13:40", Icons.schedule, Colors.deepOrange),
+                staticCard("Avg Order time ", "20m", Icons.schedule, Colors.deepOrange),
 
               ],
             ),
@@ -151,123 +152,200 @@ class _StatsPageState extends State<StatsPage> {
               staticCard("Worst month", "July", Icons.calendar_today, Colors.red),
             ],)
 ,
-  Container(
-    margin: const EdgeInsets.all(16),
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
+ Container(
+  margin: const EdgeInsets.all(16),
+  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+  decoration: BoxDecoration(
     color: Colors.white,
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.circular(16),
     boxShadow: [
       BoxShadow(
-      color: Colors.black.withOpacity(0.05),
-      blurRadius: 5,
-      offset: const Offset(0, 2),
+        color: Colors.black.withAlpha(15),
+        blurRadius: 8,
+        spreadRadius: 1,
+        offset: const Offset(0, 2),
       ),
     ],
-    ),
-    child: Column(
+  ),
+  child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text(
-      "Most popular dishes",
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-      ),
-      ),
-      const SizedBox(height: 16),
       Row(
-      children: [
-          //Think better to use other styling the the stat cards
-          // staticCard("Pizza", "200", Icons.food_bank, Colors.deepOrange),
-          // const SizedBox(width: 12,),
-          // staticCard("Burger", "150", Icons.food_bank, Colors.green),
-        Container(
-        width: 80,
-        height: 80,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: Colors.deepOrange.withAlpha(25),
-        ),
-        child: Icon(
-          Icons.restaurant,
-          color: Colors.deepOrange,
-          size: 40,
-        ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          Text(
-            "Pizza",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '€5',
-            style: const TextStyle(
-            color: Colors.deepOrange,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            "Most Popular",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.5,
             ),
           ),
-          ],
-        ),
-        ),
-      ],
+          //* For if i want to do a list of all items
+          //*Descending from most popular to least popular
+          TextButton(
+            onPressed: () {
+            },
+            child: const Text("See all"),
+          ),
+        ],
       ),
-      const SizedBox(height: 16),
-      Row(
-      children: [
-        Container(
-        width: 80,
-        height: 80,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: Colors.green.withAlpha(25),
-        ),
-        child: Icon(
-          Icons.restaurant,
-          color: Colors.green,
-          size: 40,
-        ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          Text(
-            "Burger",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '€4',
-            style: const TextStyle(
-            color: Colors.green,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-            ),
-          ),
-          ],
-        ),
-        ),
-      ],
+      const SizedBox(height: 20),
+      ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 2,
+        separatorBuilder: (context, index) => const Divider(height: 24),
+        itemBuilder: (context, index) {
+          final items = [
+            {
+              'name': 'Pizza Margherita',
+              'price': '€5.00',
+              'description': 'Classic Italian pizza with tomatoes and mozzarella',
+              'icon': Icons.local_pizza,
+              'color': Colors.deepOrange,
+              'rating': 4.8,
+              'orders': '200+ orders'
+            },
+            {
+              'name': 'Classic Burger',
+              'price': '€4.00',
+              'description': 'Juicy beef patty with fresh vegetables',
+              'icon': Icons.lunch_dining,
+              'color': Colors.green,
+              'rating': 4.6,
+              'orders': '150+ orders'
+            },
+          ];
+
+          return Row(
+            children: [
+              Container(
+                width: 90,
+                height: 90,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                    color: (items[index]['color'] as Color?)?.withAlpha(25),
+                ),
+                child: Icon(
+                  items[index]['icon'] as IconData?,
+                  color: items[index]['color'] as Color?,
+                  size: 44,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      items[index]['name'] as String,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -0.2,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      items[index]['description'] as String,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey[600],
+                        height: 1.3,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Text(
+                          items[index]['price'] as String,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: items[index]['color'] as Color?,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Icon(
+                          Icons.star_rounded,
+                          size: 16,
+                          color: Colors.amber[600],
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          items[index]['rating'].toString(),
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          items[index]['orders'] as String,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     ],
-    ),
   ),
+)
     
+
+
+
+
           ],
         ),
       ),
       
+              bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.deepOrange,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: 3,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushNamed(context, '/homepage');
+              break;
+
+            case 1:
+              Navigator.pushNamed(context, 'restaurant');
+              break;
+            case 2:
+              Navigator.pushNamed(context, '/account');
+              break;
+
+            case 3: 
+            Navigator.pushNamed(context, '/statics');
+            break;
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: "Dashboard"), //* Dashboard/homepage
+
+          BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: "Restaurant"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
+
+                    BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: "Statics"),
+
+        ],
+      ),
     );
   }
-
  Widget  growthGraph() {
 
   return Expanded(child: Container(
@@ -326,6 +404,8 @@ padding: const EdgeInsets.all(16),
       )
     );
   }
+
+  
 
 
 }

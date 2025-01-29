@@ -536,6 +536,10 @@ Future<void> playNotificationSound() async {
             case 2:
               Navigator.pushNamed(context, '/account');
               break;
+
+            case 3: 
+            Navigator.pushNamed(context, '/statics');
+            break;
           }
         },
         items: const [
@@ -543,6 +547,9 @@ Future<void> playNotificationSound() async {
 
           BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: "Restaurant"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
+
+                    BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: "Statics"),
+
         ],
       ),
       );

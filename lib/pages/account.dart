@@ -159,26 +159,37 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => const StatsPage(
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+           bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.deepOrange,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
         currentIndex: 2,
         onTap: (index) {
-          if (index == 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          } else if (index == 1) {
-            // Navigate to Orders Page
-            Navigator.of(context).pushReplacementNamed('/order-overview');
+          switch (index) {
+            case 0:
+              Navigator.pushNamed(context, '/homepage');
+              break;
+
+            case 1:
+              Navigator.pushNamed(context, 'restaurant');
+              break;
+            case 2:
+              Navigator.pushNamed(context, '/account');
+              break;
+
+            case 3: 
+            Navigator.pushNamed(context, '/statics');
+            break;
           }
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Orders'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account')
+          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: "Dashboard"), //* Dashboard/homepage
+
+          BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: "Restaurant"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
+
+                    BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: "Statics"),
+
         ],
       ),
     );
