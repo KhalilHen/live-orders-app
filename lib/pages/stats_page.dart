@@ -150,7 +150,117 @@ class _StatsPageState extends State<StatsPage> {
 
               staticCard("Worst month", "July", Icons.calendar_today, Colors.red),
             ],)
-
+,
+  Container(
+    margin: const EdgeInsets.all(16),
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [
+      BoxShadow(
+      color: Colors.black.withOpacity(0.05),
+      blurRadius: 5,
+      offset: const Offset(0, 2),
+      ),
+    ],
+    ),
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+      "Most popular dishes",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+      ),
+      const SizedBox(height: 16),
+      Row(
+      children: [
+          //Think better to use other styling the the stat cards
+          // staticCard("Pizza", "200", Icons.food_bank, Colors.deepOrange),
+          // const SizedBox(width: 12,),
+          // staticCard("Burger", "150", Icons.food_bank, Colors.green),
+        Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.deepOrange.withAlpha(25),
+        ),
+        child: Icon(
+          Icons.restaurant,
+          color: Colors.deepOrange,
+          size: 40,
+        ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Text(
+            "Pizza",
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '€5',
+            style: const TextStyle(
+            color: Colors.deepOrange,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            ),
+          ),
+          ],
+        ),
+        ),
+      ],
+      ),
+      const SizedBox(height: 16),
+      Row(
+      children: [
+        Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.green.withAlpha(25),
+        ),
+        child: Icon(
+          Icons.restaurant,
+          color: Colors.green,
+          size: 40,
+        ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Text(
+            "Burger",
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '€4',
+            style: const TextStyle(
+            color: Colors.green,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            ),
+          ),
+          ],
+        ),
+        ),
+      ],
+      ),
+    ],
+    ),
+  ),
+    
           ],
         ),
       ),
