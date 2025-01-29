@@ -3,10 +3,12 @@ import 'package:live_order_apps/models/order.dart';
 
 class DraggableOrderCard extends StatelessWidget {
   final Order order;
+  
 
   const DraggableOrderCard({
     Key? key,
-    required this.order,
+    required this.order, required  
+
   }) : super(key: key);
 
 
