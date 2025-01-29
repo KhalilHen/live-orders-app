@@ -41,6 +41,7 @@ class OrderBoard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: OrderStatus.values
+        //TODO Later change this
             .where((status) => status != OrderStatus.Rejected)
             .map((status) => OrderColumn(
                   status: status,

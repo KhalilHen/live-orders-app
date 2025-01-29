@@ -8,6 +8,14 @@ enum OrderStatus {
   Completed,
   Unknown,
 }
+enum dragAbleModeStatus {
+
+  Accepted,
+  Kitchen,
+  Ready,
+  Completed,
+  Unknown,
+}
 
 enum CustomerOrderStatus {
   Confirmed,
