@@ -17,11 +17,14 @@ class DraggableOrderCard extends StatelessWidget {
       feedback: Material(
         child: Container(
        width: 300,
-          child: Text(order.customerName),
+          child: orderCard(isDragging: true),
         ),
       ),
 
-      childWhenDragging: Container(height: 0, margin: EdgeInsets.only(bottom: 16),),
+      childWhenDragging: Container(height: 0, margin: EdgeInsets.only(bottom: 16),
+      
+      child: orderCard(),
+      ),
 
       child: orderCard(),
     );
