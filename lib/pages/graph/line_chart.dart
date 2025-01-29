@@ -6,7 +6,7 @@ class LineChartGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //I change it into a SizedBox to make it fit the screen and give it just a normal display
+  //I change it into a SizedBox to make it fit the screen and give it just a normal display
     return SizedBox(
       height: 200,
       child: Padding(
@@ -17,10 +17,34 @@ class LineChartGraph extends StatelessWidget {
   }
 
   LineChartData mainData() {
+    final List<int> mockOrders = [900, 60, 40, 0, 6, 30, 30, 30, 60, 200, 700, 800];
+    final List<FlSpot> spots = mockOrders.asMap().entries.map((entry) {
+      return FlSpot((entry.key + 1).toDouble(), entry.value.toDouble());
+    }).toList();
+
     return LineChartData(
-      gridData: FlGridData(
-        show: false,
+      lineTouchData: LineTouchData(
+        touchTooltipData: LineTouchTooltipData(
+          tooltipRoundedRadius: 8,
+          fitInsideVertically: true,
+          fitInsideHorizontally: true,
+          tooltipPadding: const EdgeInsets.all(8),
+          getTooltipItems: (touchedSpots) {
+            return touchedSpots.map((spot) {
+              return LineTooltipItem(
+                '${spot.y.toInt()} Orders',
+                const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            }).toList();
+          },
+        ),
+        handleBuiltInTouches: true,
       ),
+      gridData: FlGridData(show: false),
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: AxisTitles(
@@ -45,26 +69,20 @@ class LineChartGraph extends StatelessWidget {
         show: true,
         border: Border.all(color: Colors.grey.shade300),
       ),
-      minX: 0,
-      maxX: 6,
+      minX: 1,
+      maxX: 12,
       minY: 0,
-      maxY: 10,
+      maxY: 600,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 2),
-            FlSpot(1, 3),
-            FlSpot(2, 5),
-            FlSpot(3, 6),
-            FlSpot(4, 7),
-            FlSpot(5, 9),
-            FlSpot(6, 10),
-          ],
+          spots: spots,
           isCurved: true,
           color: Colors.lightBlue.shade300,
           barWidth: 3,
           isStrokeCapRound: true,
-          dotData: const FlDotData(show: false),
+          dotData: const FlDotData(
+            show: true,
+          ),
           belowBarData: BarAreaData(
             show: true,
             color: Colors.lightBlue.shade100.withAlpha(128),
@@ -82,29 +100,42 @@ class LineChartGraph extends StatelessWidget {
     );
     Widget text;
     switch (value.toInt()) {
-      //Added everything
-      case 0:
+      case 1:
         text = const Text('Jan', style: style);
         break;
-      case 1:
+      case 2:
         text = const Text('Feb', style: style);
         break;
-      case 2:
+      case 3:
         text = const Text('Mar', style: style);
         break;
-      case 3:
+      case 4:
         text = const Text('Apr', style: style);
         break;
-      case 4:
+      case 5:
         text = const Text('May', style: style);
         break;
-      case 5:
+      case 6:
         text = const Text('Jun', style: style);
         break;
-      case 6:
+      case 7:
         text = const Text('Jul', style: style);
         break;
-      case 7:
+      case 8:
+        text = const Text('Aug', style: style);
+        break;
+      case 9:
+        text = const Text('Sep', style: style);
+        break;
+      case 10:
+        text = const Text('Oct', style: style);
+        break;
+      case 11:
+        text = const Text('Nov', style: style);
+        break;
+      case 12:
+        text = const Text('Dec', style: style);
+        break;
       default:
         text = const Text('', style: style);
         break;
