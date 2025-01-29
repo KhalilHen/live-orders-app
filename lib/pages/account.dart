@@ -68,11 +68,31 @@ class AccountPage extends StatelessWidget {
               
               child: const Icon(Icons.camera_alt, color: Colors.white, size: 20,),
               ) 
+              ),
+              const SizedBox(height: 16,),
+              //* Use this later to display database restaurant name in the future
+              const Text("Restaurant", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+              const SizedBox(height: 8,),
+              Container(padding:  const EdgeInsets.symmetric(horizontal: 12, vertical: 6), 
+              
+                decoration: BoxDecoration(color: Colors.deepOrange.withAlpha(25), borderRadius: BorderRadius.circular(20)
+        
+              ),
+                            //* Use this later to display database category or smht similair in the future
+
+              child: const Text("Fastfood place to", style: TextStyle(
+                color: Colors.deepOrange 
+                ,
+                // fontWeight: FontWeight.bold
+                // fontWeight: FontWeight.w500
+                fontWeight:  FontWeight.w700
+              ),),
               )
           ],
 
             ),
             ),
+          
             const SizedBox(
               height: 24,
             ),
