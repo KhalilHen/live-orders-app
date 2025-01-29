@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:live_order_apps/models/enum/order_enum.dart';
 import 'package:live_order_apps/models/menu.dart';
 import 'package:live_order_apps/models/order.dart';
+import 'package:live_order_apps/pages/order_board.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -259,224 +260,236 @@ Future<void> playNotificationSound() async {
               ),
             ),
           Expanded(
-            child: orders.isEmpty
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.store,
-                          size: 64,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Text(
-                          'No orders yet',
-                          style: TextStyle(fontSize: 18, color: Colors.grey[600]),
-                        )
-                      ],
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: orders.length,
-                    itemBuilder: (context, index) {
-                      final order = orders[index];
-                      final status = orderStatuses[order.id] ?? OrderStatus.Pending;
-                      final timeAgo = getTimeAgo(order.orderTime ?? DateTime.now());
-                      // final time
-                      return Card(
-                        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            side: BorderSide(
-                              color: getStatusColor(status).withAlpha(22),
-                            )),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                              decoration: BoxDecoration(
-                                color: getStatusColor(status).withAlpha(22),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.receipt_long,
-                                        size: 20,
-                                        color: Colors.grey[70],
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      Text(
-                                        "Order #${order.id}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      //* Maby a easy to acces button for support with specific order
-                                      // Then opens a dialog with field to put in what problem is
-                                      //Then sent the order id and the information to the support team.
-                                      IconButton(onPressed: null, icon: Icon(Icons.support))
-                                    ],
-                                  ),
-                                  statusChip(status),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                        // backgroundColor: Colors.grey[700],
-                                        radius: 20,
-                                        child: Icon(
-                                          Icons.person_outline,
-                                          // color: Colors.grey[700],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 12,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            order.customerName,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                          Text(
-                                            timeAgo,
-                                            style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(height: 16),
-                                  Container(
-                                    padding: EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[50],
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(color: Colors.grey[200]!),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        ...order.items
-                                            .map((item) => Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 4),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        padding: EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                          color: Colors.deepOrange.withAlpha(25),
-                                                          borderRadius: BorderRadius.circular(4),
-                                                        ),
-                                                        child: Text(
-                                                          "1x",
-                                                          style: TextStyle(
-                                                            color: Colors.deepOrange,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 8),
-                                                      Expanded(
-                                                        child: Text(
-                                                          item.name,
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        "\$${item.price}.00",
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ))
-                                            .toList(),
-                                        Divider(
-                                          height: 24,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Total",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            Text(
-                                              "\$${order.totalAmount}",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                                color: Colors.deepOrange,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  //TODO Add function to after a order is completed for more then a 15 min it's fixed and can't change the position
+            child:  OrderBoard(
+              orders: orders,
+              orderStatus: orderStatuses,
+              onOrderStatusChanged: (order, newStatus) {
+                setState(() {
+                  orderStatuses[order.id] = newStatus;
+                });
+              },
+              // isDragAndDrop: isDragAndDrop,
 
-                                  if (status == OrderStatus.Accepted || status == OrderStatus.Kitchen || status == OrderStatus.Ready || status == OrderStatus.Completed)
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: SizedBox(
-                                        width: double.infinity,
-                                        child: ElevatedButton.icon(
-                                          onPressed: () => showUpdateStatusDialog(order),
-                                          label: Text("Update status"),
-                                          icon: Icon(Icons.update),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.deepOrange,
-                                              foregroundColor: Colors.white,
-                                              padding: EdgeInsets.symmetric(vertical: 12),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(8),
-                                              )),
-                                        ),
-                                      ),
-                                    )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+            ),
+            // child: orders.isEmpty
+            //     ? Center(
+            //         child: Column(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: [
+            //             Icon(
+            //               Icons.store,
+            //               size: 64,
+            //               color: Colors.grey,
+            //             ),
+            //             SizedBox(
+            //               height: 16,
+            //             ),
+            //             Text(
+            //               'No orders yet',
+            //               style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+            //             )
+            //           ],
+            //         ),
+            //       )
+                // // :
+                //  ListView.builder(
+                //     itemCount: orders.length,
+                //     itemBuilder: (context, index) {
+                //       final order = orders[index];
+                //       final status = orderStatuses[order.id] ?? OrderStatus.Pending;
+                //       final timeAgo = getTimeAgo(order.orderTime ?? DateTime.now());
+                //       // final time
+                //       return Card(
+                //         margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                //         elevation: 4,
+                //         shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(12),
+                //             side: BorderSide(
+                //               color: getStatusColor(status).withAlpha(22),
+                //             )),
+                //         child: Column(
+                //           children: [
+                //             Container(
+                //               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                //               decoration: BoxDecoration(
+                //                 color: getStatusColor(status).withAlpha(22),
+                //                 borderRadius: BorderRadius.only(
+                //                   topLeft: Radius.circular(12),
+                //                   topRight: Radius.circular(12),
+                //                 ),
+                //               ),
+                //               child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //                 children: [
+                //                   Row(
+                //                     children: [
+                //                       Icon(
+                //                         Icons.receipt_long,
+                //                         size: 20,
+                //                         color: Colors.grey[70],
+                //                       ),
+                //                       SizedBox(
+                //                         width: 8,
+                //                       ),
+                //                       Text(
+                //                         "Order #${order.id}",
+                //                         style: TextStyle(
+                //                           fontWeight: FontWeight.bold,
+                //                           fontSize: 16,
+                //                         ),
+                //                       ),
+                //                       //* Maby a easy to acces button for support with specific order
+                //                       // Then opens a dialog with field to put in what problem is
+                //                       //Then sent the order id and the information to the support team.
+                //                       IconButton(onPressed: null, icon: Icon(Icons.help))
+                //                     ],
+                //                   ),
+                //                   statusChip(status),
+                //                 ],
+                //               ),
+                //             ),
+                //             Padding(
+                //               padding: const EdgeInsets.all(16),
+                //               child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.start,
+                //                 children: [
+                //                   Row(
+                //                     children: [
+                //                       CircleAvatar(
+                //                         // backgroundColor: Colors.grey[700],
+                //                         radius: 20,
+                //                         child: Icon(
+                //                           Icons.person_outline,
+                //                           // color: Colors.grey[700],
+                //                         ),
+                //                       ),
+                //                       SizedBox(
+                //                         width: 12,
+                //                       ),
+                //                       Column(
+                //                         crossAxisAlignment: CrossAxisAlignment.start,
+                //                         children: [
+                //                           Text(
+                //                             order.customerName,
+                //                             style: TextStyle(
+                //                               fontWeight: FontWeight.w500,
+                //                               fontSize: 16,
+                //                             ),
+                //                           ),
+                //                           Text(
+                //                             timeAgo,
+                //                             style: TextStyle(
+                //                               color: Colors.grey[600],
+                //                               fontSize: 13,
+                //                             ),
+                //                           ),
+                //                         ],
+                //                       )
+                //                     ],
+                //                   ),
+                //                   SizedBox(height: 16),
+                //                   Container(
+                //                     padding: EdgeInsets.all(12),
+                //                     decoration: BoxDecoration(
+                //                       color: Colors.grey[50],
+                //                       borderRadius: BorderRadius.circular(8),
+                //                       border: Border.all(color: Colors.grey[200]!),
+                //                     ),
+                //                     child: Column(
+                //                       children: [
+                //                         ...order.items
+                //                             .map((item) => Padding(
+                //                                   padding: const EdgeInsets.symmetric(vertical: 4),
+                //                                   child: Row(
+                //                                     children: [
+                //                                       Container(
+                //                                         padding: EdgeInsets.all(4),
+                //                                         decoration: BoxDecoration(
+                //                                           color: Colors.deepOrange.withAlpha(25),
+                //                                           borderRadius: BorderRadius.circular(4),
+                //                                         ),
+                //                                         child: Text(
+                //                                           "1x",
+                //                                           style: TextStyle(
+                //                                             color: Colors.deepOrange,
+                //                                             fontWeight: FontWeight.bold,
+                //                                           ),
+                //                                         ),
+                //                                       ),
+                //                                       SizedBox(width: 8),
+                //                                       Expanded(
+                //                                         child: Text(
+                //                                           item.name,
+                //                                           style: TextStyle(
+                //                                             fontSize: 14,
+                //                                           ),
+                //                                         ),
+                //                                       ),
+                //                                       Text(
+                //                                         "\$${item.price}.00",
+                //                                         style: TextStyle(
+                //                                           fontWeight: FontWeight.w500,
+                //                                         ),
+                //                                       ),
+                //                                     ],
+                //                                   ),
+                //                                 ))
+                //                             .toList(),
+                //                         Divider(
+                //                           height: 24,
+                //                         ),
+                //                         Row(
+                //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //                           children: [
+                //                             Text(
+                //                               "Total",
+                //                               style: TextStyle(
+                //                                 fontWeight: FontWeight.bold,
+                //                                 fontSize: 16,
+                //                               ),
+                //                             ),
+                //                             Text(
+                //                               "\$${order.totalAmount}",
+                //                               style: TextStyle(
+                //                                 fontWeight: FontWeight.bold,
+                //                                 fontSize: 16,
+                //                                 color: Colors.deepOrange,
+                //                               ),
+                //                             ),
+                //                           ],
+                //                         )
+                //                       ],
+                //                     ),
+                //                   ),
+                //                   //TODO Add function to after a order is completed for more then a 15 min it's fixed and can't change the position
+
+                //                   if (status == OrderStatus.Accepted || status == OrderStatus.Kitchen || status == OrderStatus.Ready || status == OrderStatus.Completed)
+                //                     Padding(
+                //                       padding: const EdgeInsets.only(top: 8),
+                //                       child: SizedBox(
+                //                         width: double.infinity,
+                //                         child: ElevatedButton.icon(
+                //                           onPressed: () => showUpdateStatusDialog(order),
+                //                           label: Text("Update status"),
+                //                           icon: Icon(Icons.update),
+                //                           style: ElevatedButton.styleFrom(
+                //                               backgroundColor: Colors.deepOrange,
+                //                               foregroundColor: Colors.white,
+                //                               padding: EdgeInsets.symmetric(vertical: 12),
+                //                               shape: RoundedRectangleBorder(
+                //                                 borderRadius: BorderRadius.circular(8),
+                //                               )),
+                //                         ),
+                //                       ),
+                //                     )
+                //                 ],
+                //               ),
+                //             )
+                //           ],
+                //         ),
+                //       );
+                //     },
+                //   ),
           )
         ],
       ),
@@ -942,6 +955,9 @@ Future<void> playNotificationSound() async {
         //         ))
         //   ],
         // )
+
+
+        
       ],
     );
   }

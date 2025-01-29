@@ -3,6 +3,7 @@ import 'package:live_order_apps/onboarding/start_page.dart';
 import 'package:live_order_apps/pages/account.dart';
 import 'package:live_order_apps/pages/homepage.dart';
 import 'package:live_order_apps/pages/login.dart';
+import 'package:live_order_apps/pages/order_board.dart';
 import 'package:live_order_apps/routes/routes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,6 +44,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: Introduction(),
       home: HomePage(),
+      // home: OrderBoard( 
+      //   orders: [
+
+          
+      //   ],
+      //   orderStatus: {},
+      //   onOrderStatusChanged: (order, newStatus) {},
+      // ),
 
       routes: {
         Routes.onBoarding: (context) => Introduction(),
