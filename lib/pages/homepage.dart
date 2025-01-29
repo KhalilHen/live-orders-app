@@ -360,7 +360,8 @@ Future<void> playNotificationSound() async {
                                       //* Maby a easy to acces button for support with specific order
                                       // Then opens a dialog with field to put in what problem is
                                       //Then sent the order id and the information to the support team.
-                                      IconButton(onPressed: null, icon: Icon(Icons.support))
+                                      // IconButton(onPressed: null, icon: Icon(Icons.support))
+                                      IconButton(onPressed: () {}, icon: Icon(Icons.help_outline))
                                     ],
                                   ),
                                   statusChip(status),
