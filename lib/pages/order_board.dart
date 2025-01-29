@@ -16,7 +16,7 @@ class OrderBoard extends StatelessWidget {
     Key? key,
  required    this.orders,
  required   this.orderStatus,
-   required  this.onOrderStatusChanged
+   required  this.onOrderStatusChanged, required bool isDragAndDrop
   })
 
       : super(key: key);
