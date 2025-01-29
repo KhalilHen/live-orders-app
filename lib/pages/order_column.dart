@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:live_order_apps/models/enum/order_enum.dart';
 import 'package:live_order_apps/models/order.dart';
+import 'package:live_order_apps/pages/drag_order_card.dart';
 import 'package:live_order_apps/pages/order_status.dart';
 
 class OrderColumn extends StatelessWidget {
@@ -38,6 +39,17 @@ class OrderColumn extends StatelessWidget {
 
                 children: [
 columnHeader(),
+
+Expanded(child: ListView.builder(
+  
+  padding: EdgeInsets.all(8),
+  itemCount: orders.length,
+  itemBuilder: (context, index) {
+
+
+                      return DraggableOrderCard(order: orders[index]);
+
+  } ))
                 ],
               );
           }
