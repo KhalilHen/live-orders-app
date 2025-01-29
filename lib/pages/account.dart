@@ -101,10 +101,48 @@ class AccountPage extends StatelessWidget {
               children: [
 
                 statistikCard("Today orders", "50", Icons.receipt_long, Colors.deepOrange),
+
+const SizedBox(width: 10,),
+statistikCard("Total revenue",  "\$500", Icons.payments,
+Colors.green,
+// Colors.green.shade500
+// Colors.green.shade700 //I like this kind of dark green but i am 
+// Colors.green.shade600
+
+// Colors.green.shade900
+//  Colors.green.shade100
+
+), 
               ],
             ),
             ),
-          
+//! These are not functional yet. But bit of how it can look in real case */
+            settingSection(
+
+              "Information", [
+                settingsTile("Restaurant details", "Update your restaurant info", Icons.store,  ),
+
+                settingsTile("Opening hours", "Adjust your opening hours/days", Icons.schedule),
+                
+
+                              ]
+            ),
+    settingSection("Menu managemnet", [
+        // * Maby better to use the menu view instead of seperate button depending on which device the app is running.
+      settingsTile("Menu items", "Manage your menu and sections", Icons.menu_book),
+
+      settingsTile("Special promotions or offers", "Create here your discounts, promoties", Icons.local_offer),
+    ])          ,
+
+    settingSection("Account settings", [
+
+      settingsTile("Account details", "Update your account details", Icons.person),
+      settingsTile("Payment methods", "Add or remove payment methods", Icons.payment),
+      settingsTile("Notifications", "Manage your notifications", Icons.notifications),
+      settingsTile("Privacy & security", "Control your privacy settings", Icons.privacy_tip),
+      settingsTile("Help & support", "Get help from our support team", Icons.help),
+      settingsTile("Logout", "Sign out from your account", Icons.logout),
+    ])
           
 
           
@@ -190,5 +228,96 @@ padding: const EdgeInsets.all(16),
       )
     );
   }
-  
+
+  Widget settingSection(String title, List<Widget> tiles) {
+    return Container(
+
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), 
+    
+    boxShadow:  [
+
+      BoxShadow(
+        color: Colors.black.withAlpha(13),
+        blurRadius: 5, 
+        offset: const Offset(0, 2),
+
+      ),
+    ],
+
+
+    
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(padding: const EdgeInsets.all(16), child: Text(
+          title, style: const TextStyle(fontSize: 18,  fontWeight: FontWeight.bold),
+        ),),
+        ...tiles, 
+      ],
+    ),
+    );
+  } 
+
+
+
+   Widget settingsTile(
+    String title,
+    String subtitle,
+    IconData icon, {
+    bool showBadge = false,
+  }) {
+    return ListTile(
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            color: Colors.deepOrange.withAlpha(25),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(
+          icon,
+          color: Colors.deepOrange,
+        ),
+      ),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: TextStyle(
+          color: Colors.grey[600],
+        ),
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (showBadge)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              margin: const EdgeInsets.only(right: 8),
+              decoration: BoxDecoration(
+                color: Colors.deepOrange,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Text(
+                'New',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          Icon(
+            Icons.chevron_right,
+            color: Colors.grey[400],
+          ),
+        ],
+      ),
+    );
+  }
 }
