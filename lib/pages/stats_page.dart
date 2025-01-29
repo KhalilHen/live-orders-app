@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:live_order_apps/pages/graph/line_chart.dart';
 // import 'package:live_order_apps/widgets/statistik_card.dart';
 //* This can be used for a single app. With restaurant + stats for  a on the go management app.
 
@@ -41,15 +42,17 @@ class _StatsPageState extends State<StatsPage> {
           const Text("Restaurant growth", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 const SizedBox(height: 16,),
                    //This the graph container
+
+                    LineChartGraph(),
                 Row(
         children: [
                      //TODO Work here late ron
             //* Container to simulate the graph space
-                     Container(
-                      height: 300,
-                      width: 700,
-                      color: Colors.red,
-                     )
+                    //  Container(
+                    //   height: 300,
+                    //   width: 700,
+                    //   color: Colors.red,
+                    //  )
                     //   AspectRatio(
                     //   aspectRatio: 2.0,
                     //   child: LineChart(
@@ -343,6 +346,15 @@ class _StatsPageState extends State<StatsPage> {
                     BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: "Statics"),
 
         ],
+      ),
+
+      floatingActionButton: FloatingActionButton(
+
+        onPressed: 
+         () {
+
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LineChart(LineChartData())));
+         },
       ),
     );
   }
