@@ -42,13 +42,13 @@ class _StatsPageState extends State<StatsPage> {
                     ),
 //TODO Impprove this later so it can a correct size of graph container with displaying good the bullet dots
                     Container(
-                      height: 100, //* This is too small but couldn't find better solution atm
+                      height: 150, //* This is too small but couldn't find better solution atm
 
                       padding: const EdgeInsets.all(8),
                       margin: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), boxShadow: [
                         BoxShadow(
-                            color: Colors.black.withAlpha(25),
+                          color: Colors.black.withAlpha(25),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         )
@@ -335,7 +335,7 @@ class _StatsPageState extends State<StatsPage> {
         onTap: (index) {
           switch (index) {
             case 0:
-              Navigator.pushNamed(context, '/homepage');
+              Navigator.pushNamed(context, '/home');
               break;
 
             case 1:
@@ -358,11 +358,6 @@ class _StatsPageState extends State<StatsPage> {
 
           BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: "Statics"),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => LineChartGraph()));
-        },
       ),
     );
   }

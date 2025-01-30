@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-  audioPlayer.setSource(AssetSource('bell-sound.mp3'));
+    audioPlayer.setSource(AssetSource('bell-sound.mp3'));
 
     timer = Timer.periodic(const Duration(seconds: 15), (timer) {
       //So that the different orders will not overlap each other
@@ -89,9 +89,8 @@ class _HomePageState extends State<HomePage> {
     if (!isRestaurantOpen) return;
 
     final Order newOrder = generateRandomOrder();
-      //* Turned off until used again because of the sound */
-      // playNotificationSound() ;
-
+    //* Turned off until used again because of the sound */
+    playNotificationSound();
 
     if (isAutomaticOrders) {
       setState(() {
@@ -107,17 +106,16 @@ class _HomePageState extends State<HomePage> {
   }
 
 //TODO Find better sound when using real case scenario
-Future<void> playNotificationSound() async {
-
-  if (newOrderSound) {
-    try { 
-      
-      await audioPlayer.play(AssetSource('bell-sound.mp3'));
-    } catch (e) {
-      debugPrint('Error playing sound: $e');
+  Future<void> playNotificationSound() async {
+    if (newOrderSound) {
+      try {
+        await audioPlayer.play(AssetSource('bell-sound.mp3'));
+      } catch (e) {
+        debugPrint('Error playing sound: $e');
+      }
     }
   }
-}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -263,9 +261,7 @@ Future<void> playNotificationSound() async {
                 ),
               ),
             ),
-        
-        
-        
+
           // Expanded(
           //   child:  OrderBoard(
           //     orders: orders,
@@ -278,7 +274,7 @@ Future<void> playNotificationSound() async {
           //     // isDragAndDrop: isDragAndDrop,
 
           //   ),
-                  Expanded(
+          Expanded(
             child: orders.isEmpty
                 ? Center(
                     child: Column(
@@ -300,226 +296,219 @@ Future<void> playNotificationSound() async {
                     ),
                   )
                 : isDragAndDrop
-                ?
-                  OrderBoard(
-                    orders: orders,
-                    orderStatus: orderStatuses,
-                    onOrderStatusChanged: (order, newStatus) {
-                      setState(() {
-                        orderStatuses[order.id] = newStatus;
-                      });
-                    },
-                    isDragAndDrop: isDragAndDrop,
-                  )
-             
-             :    ListView.builder(
-                    itemCount: orders.length,
-                    itemBuilder: (context, index) {
-                      final order = orders[index];
-                      final status = orderStatuses[order.id] ?? OrderStatus.Pending;
-                      final timeAgo = getTimeAgo(order.orderTime ?? DateTime.now());
-                      // final time
-                      return Card(
-                        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            side: BorderSide(
-                              color: getStatusColor(status).withAlpha(22),
-                            )),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                              decoration: BoxDecoration(
-                                color: getStatusColor(status).withAlpha(22),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.receipt_long,
-                                        size: 20,
-                                        color: Colors.grey[70],
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      Text(
-                                        "Order #${order.id}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      //* Maby a easy to acces button for support with specific order
-                                      // Then opens a dialog with field to put in what problem is
-                                      //Then sent the order id and the information to the support team.
-                                      // IconButton(onPressed: null, icon: Icon(Icons.support))
-                                      IconButton(onPressed: () {}, icon: Icon(Icons.help_outline))
-                                    ],
+                    ? OrderBoard(
+                        orders: orders,
+                        orderStatus: orderStatuses,
+                        onOrderStatusChanged: (order, newStatus) {
+                          setState(() {
+                            orderStatuses[order.id] = newStatus;
+                          });
+                        },
+                        isDragAndDrop: isDragAndDrop,
+                      )
+                    : ListView.builder(
+                        itemCount: orders.length,
+                        itemBuilder: (context, index) {
+                          final order = orders[index];
+                          final status = orderStatuses[order.id] ?? OrderStatus.Pending;
+                          final timeAgo = getTimeAgo(order.orderTime ?? DateTime.now());
+                          // final time
+                          return Card(
+                            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(
+                                  color: getStatusColor(status).withAlpha(22),
+                                )),
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                  decoration: BoxDecoration(
+                                    color: getStatusColor(status).withAlpha(22),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12),
+                                    ),
                                   ),
-                                  statusChip(status),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      CircleAvatar(
-                                        // backgroundColor: Colors.grey[700],
-                                        radius: 20,
-                                        child: Icon(
-                                          Icons.person_outline,
-                                          // color: Colors.grey[700],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 12,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                      Row(
                                         children: [
+                                          Icon(
+                                            Icons.receipt_long,
+                                            size: 20,
+                                            color: Colors.grey[70],
+                                          ),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
                                           Text(
-                                            order.customerName,
+                                            "Order #${order.id}",
                                             style: TextStyle(
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.bold,
                                               fontSize: 16,
                                             ),
                                           ),
-                                          Text(
-                                            timeAgo,
-                                            style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 13,
-                                            ),
-                                          ),
+                                          //* Maby a easy to acces button for support with specific order
+                                          // Then opens a dialog with field to put in what problem is
+                                          //Then sent the order id and the information to the support team.
+                                          // IconButton(onPressed: null, icon: Icon(Icons.support))
+                                          IconButton(onPressed: () {}, icon: Icon(Icons.help_outline))
                                         ],
-                                      )
+                                      ),
+                                      statusChip(status),
                                     ],
                                   ),
-                                  SizedBox(height: 16),
-                                  Container(
-                                    padding: EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[50],
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(color: Colors.grey[200]!),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        ...order.items
-                                            .map((item) => Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 4),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        padding: EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                          color: Colors.deepOrange.withAlpha(25),
-                                                          borderRadius: BorderRadius.circular(4),
-                                                        ),
-                                                        child: Text(
-                                                          "1x",
-                                                          style: TextStyle(
-                                                            color: Colors.deepOrange,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 8),
-                                                      Expanded(
-                                                        child: Text(
-                                                          item.name,
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        "\$${item.price}.00",
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ))
-                                            .toList(),
-                                        Divider(
-                                          height: 24,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          CircleAvatar(
+                                            // backgroundColor: Colors.grey[700],
+                                            radius: 20,
+                                            child: Icon(
+                                              Icons.person_outline,
+                                              // color: Colors.grey[700],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 12,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                order.customerName,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              Text(
+                                                timeAgo,
+                                                style: TextStyle(
+                                                  color: Colors.grey[600],
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 16),
+                                      Container(
+                                        padding: EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[50],
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(color: Colors.grey[200]!),
                                         ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        child: Column(
                                           children: [
-                                            Text(
-                                              "Total",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
+                                            ...order.items
+                                                .map((item) => Padding(
+                                                      padding: const EdgeInsets.symmetric(vertical: 4),
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                            padding: EdgeInsets.all(4),
+                                                            decoration: BoxDecoration(
+                                                              color: Colors.deepOrange.withAlpha(25),
+                                                              borderRadius: BorderRadius.circular(4),
+                                                            ),
+                                                            child: Text(
+                                                              "1x",
+                                                              style: TextStyle(
+                                                                color: Colors.deepOrange,
+                                                                fontWeight: FontWeight.bold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 8),
+                                                          Expanded(
+                                                            child: Text(
+                                                              item.name,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "\$${item.price}.00",
+                                                            style: TextStyle(
+                                                              fontWeight: FontWeight.w500,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ))
+                                                .toList(),
+                                            Divider(
+                                              height: 24,
                                             ),
-                                            Text(
-                                              "\$${order.totalAmount}",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                                color: Colors.deepOrange,
-                                              ),
-                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Total",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "\$${order.totalAmount}",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                    color: Colors.deepOrange,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
                                           ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  //TODO Add function to after a order is completed for more then a 15 min it's fixed and can't change the position
-
-                                  if (status == OrderStatus.Accepted || status == OrderStatus.Kitchen || status == OrderStatus.Ready || status == OrderStatus.Completed)
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: SizedBox(
-                                        width: double.infinity,
-                                        child: ElevatedButton.icon(
-                                          onPressed: () => showUpdateStatusDialog(order),
-                                          label: Text("Update status"),
-                                          icon: Icon(Icons.update),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.deepOrange,
-                                              foregroundColor: Colors.white,
-                                              padding: EdgeInsets.symmetric(vertical: 12),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(8),
-                                              )),
                                         ),
                                       ),
-                                    )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                                      //TODO Add function to after a order is completed for more then a 15 min it's fixed and can't change the position
+
+                                      if (status == OrderStatus.Accepted || status == OrderStatus.Kitchen || status == OrderStatus.Ready || status == OrderStatus.Completed)
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 8),
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: ElevatedButton.icon(
+                                              onPressed: () => showUpdateStatusDialog(order),
+                                              label: Text("Update status"),
+                                              icon: Icon(Icons.update),
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.deepOrange,
+                                                  foregroundColor: Colors.white,
+                                                  padding: EdgeInsets.symmetric(vertical: 12),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(8),
+                                                  )),
+                                            ),
+                                          ),
+                                        )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      ),
           )
         ],
       ),
-
-      floatingActionButton: FloatingActionButton(onPressed: () {
-
-        playNotificationSound();
-      },),
-           bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.deepOrange,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
@@ -527,7 +516,7 @@ Future<void> playNotificationSound() async {
         onTap: (index) {
           switch (index) {
             case 0:
-              Navigator.pushNamed(context, '/homepage');
+              Navigator.pushNamed(context, '/home');
               break;
 
             case 1:
@@ -537,9 +526,9 @@ Future<void> playNotificationSound() async {
               Navigator.pushNamed(context, '/account');
               break;
 
-            case 3: 
-            Navigator.pushNamed(context, '/statics');
-            break;
+            case 3:
+              Navigator.pushNamed(context, '/statics');
+              break;
           }
         },
         items: const [
@@ -548,12 +537,10 @@ Future<void> playNotificationSound() async {
           BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: "Restaurant"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
 
-                    BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: "Statics"),
-
+          BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: "Statics"),
         ],
       ),
-      );
-    
+    );
   }
 
   String getTimeAgo(DateTime dateTime) {
@@ -984,9 +971,6 @@ Future<void> playNotificationSound() async {
         //         ))
         //   ],
         // )
-
-
-        
       ],
     );
   }
