@@ -6,13 +6,10 @@ class LineChartGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  //I change it into a SizedBox to make it fit the screen and give it just a normal display
-    return SizedBox(
-      height: 200,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: LineChart(mainData()),
-      ),
+    //I change it into a SizedBox to make it fit the screen and give it just a normal display
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: LineChart(mainData()),
     );
   }
 

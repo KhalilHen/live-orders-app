@@ -40,8 +40,24 @@ class _StatsPageState extends State<StatsPage> {
                     const SizedBox(
                       height: 16,
                     ),
+//TODO Impprove this later so it can a correct size of graph container with displaying good the bullet dots
+                    Container(
+                      height: 100, //* This is too small but couldn't find better solution atm
+
+                      padding: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withAlpha(25),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        )
+                      ]),
+                      child: const LineChartGraph(),
+                    ),
                     //This the graph container
-                    LineChartGraph(),
+
+                    //TODO Fix this
                     Row(children: [
                       //TODO Work here late ron
                       //* Container to simulate the graph space
