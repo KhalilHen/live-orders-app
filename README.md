@@ -1,16 +1,48 @@
-# live_order_apps
+# 🍽️ Restaurant Order management/ Restaurant portal app  
 
-A new Flutter project.
+a project created to help restaurant manager orders. and see theyre perfomance all in one app  (In future also easily edit stock items, and update menu)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## 🚀 Features  
 
-A few resources to get you started if this is your first Flutter project:
+### 🔑 Authentication  
+- Secure database-powered login system  
+- User authentication for access control  
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 📦 Order Management (Mock Data)  
+- **Order Tracking:** Accepted, Kitchen, Ready, Completed  
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 📊 Statistics Dashboard  
+#### **Daily Overview**  
+- Today's Orders  
+- Today's Revenue  
+- Average Order Value  
+- Active Orders  
+
+#### **Overall Statistics**  
+- Total Orders  
+- Total Revenue  
+- Total customers serverd
+- Returning customers  
+- Performance Indicators  
+
+#### **Visual Analytics**  
+- **Monthly Trend Chart** *(using fl_chart)*  
+- **Popular Items Display**  
+
+### 👤 Account Management  
+- Basic profile view  
+- Settings interface  
+
+---
+
+## 🛠️ Tech Stack  
+- **Frontend:** Flutter  
+- **Authentication:** Supbase auth*  
+- **Charts & Visualization:** fl_chart  
+
+
+## 🔧 Installation  
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/yourusername/restaurant-portal-app.git
